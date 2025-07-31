@@ -1,0 +1,21 @@
+name: OpenRouterChatbot
+version: 1.0
+main: com.example.openrouterchatbot.OpenRouterChatbot
+api-version: 1.21
+author: Kilo Code
+description: An AI Chatbot that integrates with OpenRouter.
+commands:
+  ai:
+    description: Sends a prompt to the AI model.
+    usage: /<command> [prompt|set <model_slug>|reloadmodels]
+    permission: openrouterchatbot.use
+permissions:
+  openrouterchatbot.use:
+    description: Allows user to use the /ai command.
+    default: true
+  openrouterchatbot.set:
+    description: Allows user to set the AI model.
+    default: op
+  openrouterchatbot.reload:
+    description: Allows user to reload the model cache.
+    default: op

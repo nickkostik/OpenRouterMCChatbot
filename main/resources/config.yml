@@ -1,0 +1,141 @@
+# ===================================================================
+# OpenRouter AI Chatbot Plugin Configuration
+# ===================================================================
+#
+# This file allows you to configure every aspect of the OpenRouterChatbot plugin.
+# For changes to take effect, you must either restart the server or use a plugin manager
+# to reload this plugin's configuration.
+#
+# ===================================================================
+
+# --- Primary Settings ---
+
+# Your personal API key from https://openrouter.ai/keys
+# This is required for the plugin to function.
+openrouter-api-key: "YOUR_OPENROUTER_API_KEY"
+
+# The default model to use for chat completions.
+# This can be changed in-game by operators using the "/ai set <model_slug>" command.
+# Example: "openai/gpt-4o", "google/gemini-pro-1.5", "anthropic/claude-3-haiku"
+model: "openai/gpt-4o"
+
+# ===================================================================
+# --- Command Permissions ---
+# ===================================================================
+# Set these to 'true' to require that a user is an Operator (OP) or has the
+# specific permission node to use a command. If 'false', anyone can use the command.
+command-permissions:
+  # Permission node: openrouterchatbot.use
+  require-op-for-ai: false
+  # Permission node: openrouterchatbot.set
+  require-op-for-set: false
+  # Permission node: openrouterchatbot.reload
+  require-op-for-reload: false
+
+# ===================================================================
+# --- Behavior Settings ---
+# ===================================================================
+features:
+  # If true, a "Thinking..." message is sent to the user while the AI is processing the request.
+  send-thinking-message: true
+
+  # If true, the plugin will automatically append the ":online" suffix to the model name,
+  # enabling web search capabilities for all queries.
+  enable-web-search: true
+
+  # If true, the plugin will check if an ":extended" version of the configured model exists
+  # and use it if available, providing a larger context window for the AI.
+  enable-extended-context: true
+
+  # If true, the original prompt sent by the user will be displayed in the chat
+  # before the AI's response. The format can be configured below.
+  display-user-prompt: true
+
+  # If true, the name of the player who used the command will be prepended to the prompt
+  # that is sent to the AI (e.g., "PlayerName: What is the weather?").
+  # This can provide helpful context for the AI.
+  include-player-name-in-prompt: true
+
+# ===================================================================
+# --- Message Visibility ---
+# ===================================================================
+message-visibility:
+  # If true, all AI-related messages (prompt, thinking, and response) will be broadcast
+  # publicly to every player on the server.
+  # If false, the messages will only be visible to the person who executed the command.
+  broadcast-to-server: false
+
+# ===================================================================
+# --- Message Formatting ---
+# ===================================================================
+# Customize all messages sent by the plugin.
+# You can use standard Bukkit color codes (e.g., &a for green, &l for bold).
+# Placeholders: %player%, %prompt%, %model%
+message-formatting:
+  # The prefix that appears before every AI response.
+  ai-prefix: "&a[AI] &r"
+
+  # The message displayed while the user is waiting for a response.
+  thinking-message: "&eThinking..."
+
+  # The prefix for any plugin-related error messages.
+  error-prefix: "&c[Error] &r"
+
+  # The format for displaying the user's original prompt in chat.
+  # Only used if 'display-user-prompt' is enabled above.
+  prompt-display-format: "&7&o%player% asked %model%: %prompt%"
+
+  # Error message shown when a player lacks the required permission.
+  no-permission: "&cYou do not have permission to use this command."
+
+  # Error message for incorrect command syntax.
+  invalid-usage: "&cInvalid usage. Try: /ai <prompt> or /ai set <model>"
+
+  # Error message shown if the API key has not been set.
+  api-key-not-set: "&cOpenRouter API key is not set. Please configure it in config.yml."
+
+# ===================================================================
+# --- Advanced API Call Settings ---
+# ===================================================================
+# These settings correspond directly to the OpenRouter /chat/completions endpoint parameters.
+# For detailed explanations, visit https://openrouter.ai/docs#chat
+api-settings:
+  # A system prompt or set of instructions for the AI. This is sent as the "system" role message.
+  # It can be used to guide the AI's personality, tone, or response format.
+  instructions: "You are a helpful Minecraft assistant. Keep your answers concise and direct, relevant to the game. Do not include any urls or external links."
+
+  # Controls the randomness of the output. Lowering results in less random, more deterministic completions.
+  # Range: 0.0 to 2.0. Default: 1.0.
+  temperature: 1.0
+
+  # The maximum number of tokens (words and punctuation) to generate in the response.
+  # Default: 2048.
+  max_tokens: 2048
+
+  # Nucleus sampling: an alternative to temperature that controls the diversity of the response.
+  # Range: 0.0 to 1.0. Default: 1.0.
+  top_p: 1.0
+
+  # Penalizes new tokens based on their existing frequency in the text so far,
+  # discouraging the model from repeating the same line verbatim.
+  # Range: -2.0 to 2.0. Default: 0.0.
+  frequency_penalty: 0.0
+
+  # Penalizes new tokens based on whether they appear in the text so far,
+  # increasing the model's likelihood to talk about new topics.
+  # Range: -2.0 to 2.0. Default: 0.0.
+  presence_penalty: 0.0
+
+  # A list of specific strings that will cause the AI to stop generating further tokens.
+  stop: []
+
+  # An integer seed for repeatable outputs. If you use the same seed with the same prompt,
+  # you will get the same response every time. Set to null for random, non-repeatable outputs.
+  seed: null
+
+  # A list of transformations to apply to the model output.
+  transforms: []
+
+  # The routing strategy for the API call. Can be "fallback" to try other models on failure.
+  # Leave empty for default routing.
+  route: ""
