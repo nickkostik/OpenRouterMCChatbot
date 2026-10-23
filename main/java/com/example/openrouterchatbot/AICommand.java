@@ -54,7 +54,7 @@ public class AICommand implements CommandExecutor, TabCompleter {
     }
 
     private void handleSetModel(CommandSender sender, String[] args) {
-        if (plugin.getConfig().getBoolean("command-permissions.require-op-for-set") && !sender.hasPermission("openrouterchatbot.set")) {
+        if (!sender.hasPermission("openrouterchatbot.set")) {
             sender.sendMessage(formatMessage("no-permission", sender, "", ""));
             return;
         }
@@ -69,7 +69,7 @@ public class AICommand implements CommandExecutor, TabCompleter {
     }
 
     private void handleReloadModels(CommandSender sender) {
-        if (plugin.getConfig().getBoolean("command-permissions.require-op-for-reload") && !sender.hasPermission("openrouterchatbot.reload")) {
+        if (!sender.hasPermission("openrouterchatbot.reload")) {
             sender.sendMessage(formatMessage("no-permission", sender, "", ""));
             return;
         }

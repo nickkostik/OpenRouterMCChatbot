@@ -11,7 +11,7 @@ OpenRouter Chatbot is a powerful and highly configurable Spigot plugin that inte
 - **Universal Web Search**: By appending `:online` to the model name, you can enable web search for any query, allowing the AI to provide up-to-date information on any topic.
 - **Intelligent Context Extension**: The plugin can automatically detect and use a model's extended context version (e.g., `:extended`), providing a larger context window for more complex conversations.
 - **Highly Configurable**: Nearly every aspect of the plugin is customizable via a detailed `config.yml` file. You can control everything from message formats and colors to advanced API parameters like temperature and token limits.
-- **Fine-Grained Permission Control**: You have complete control over who can use the plugin's commands. Each command can be configured to require operator (OP) status or a specific permission node.
+- **Fine-Grained Permission Control**: Permission nodes control who can send prompts, change the model, and refresh the model cache.
 - **Public or Private Messaging**: Configure the plugin to broadcast AI interactions to the entire server or keep them private to the user who initiated the prompt.
 
 ## Commands and Permissions
@@ -24,7 +24,7 @@ The plugin's commands are simple and intuitive:
 | `/ai set <model_slug>` | Sets the default AI model for all subsequent requests. | `openrouterchatbot.set` | Operators |
 | `/ai reloadmodels` | Refreshes the cached list of available models from the OpenRouter API. | `openrouterchatbot.reload` | Operators |
 
-You can change the default permission requirements in the `config.yml` file.
+Grant or revoke the permission nodes with your server's permission manager. The `set` and `reload` nodes default to operators in `plugin.yml`.
 
 ## Installation and Setup
 
@@ -46,7 +46,7 @@ On startup, the plugin also fetches and caches a list of all available models fr
 
 If you wish to build the plugin from its source code, you will need:
 
--   Java 8 or a newer version
+-   Java 21 or a newer version
 -   Apache Maven
 
 1.  Clone the repository to your local machine.
@@ -70,11 +70,9 @@ This section provides a detailed, toggle-by-toggle explanation of every setting 
 
 ### `command-permissions`
 
-This section allows you to control who can use the plugin's commands.
+The `openrouterchatbot.set` and `openrouterchatbot.reload` permission nodes are always required for their administrative subcommands. Existing `require-op-for-set` and `require-op-for-reload` entries in older configuration files are ignored.
 
--   `require-op-for-ai`: If set to `true`, only server operators (OPs) or players with the `openrouterchatbot.use` permission can use the `/ai <prompt>` command. If `false`, anyone can use it.
--   `require-op-for-set`: If set to `true`, only OPs or players with the `openrouterchatbot.set` permission can use the `/ai set` command. If `false`, anyone can change the model.
--   `require-op-for-reload`: If set to `true`, only OPs or players with the `openrouterchatbot.reload` permission can use the `/ai reloadmodels` command. If `false`, anyone can reload the model cache.
+-   `require-op-for-ai`: If set to `true`, the plugin also checks `openrouterchatbot.use` for `/ai <prompt>`. The command itself already requires that node through `plugin.yml`, where it defaults to all players.
 
 ### `features`
 
