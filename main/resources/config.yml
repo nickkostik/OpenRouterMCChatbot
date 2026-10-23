@@ -22,15 +22,12 @@ model: "openai/gpt-4o"
 # ===================================================================
 # --- Command Permissions ---
 # ===================================================================
-# Set these to 'true' to require that a user is an Operator (OP) or has the
-# specific permission node to use a command. If 'false', anyone can use the command.
+# The model-changing and model-cache commands always require their permission
+# nodes (openrouterchatbot.set and openrouterchatbot.reload). The setting below
+# applies only to AI prompts. Permission defaults are declared in plugin.yml.
 command-permissions:
   # Permission node: openrouterchatbot.use
   require-op-for-ai: false
-  # Permission node: openrouterchatbot.set
-  require-op-for-set: false
-  # Permission node: openrouterchatbot.reload
-  require-op-for-reload: false
 
 # ===================================================================
 # --- Behavior Settings ---
